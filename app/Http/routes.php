@@ -10,12 +10,18 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', function(){
-	return redirect('cursos');
+Route::get('/home', function(){
+	return redirect('/');	
 });
-Route::resource('profesores', 'ProfesorController');
-Route::resource('cursos', 'CursosController');
+Route::get('/', function(){
+	return redirect('profesores');
+});
+
+Route::group(['middleware' => ['auth']], function()
+{
+	Route::resource('profesores', 'ProfesorController');
+	Route::resource('cursos', 'CursosController');
+});
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
